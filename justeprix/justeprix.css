@@ -1,0 +1,110 @@
+body {
+    background: rgb(9,90,121);
+    background: radial-gradient(circle, rgba(9,90,121,1) 12%, rgba(0,212,255,1) 100%);
+}
+
+h1 {
+    text-align: center;
+    color: white;
+    margin-bottom: 100px;
+    font-size: 40px;
+}
+
+#beginGame {
+    background-color: bisque;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 18px;
+    margin-bottom: 50px;
+}
+
+.btnNav {
+    background-color: lightblue;
+    padding: 10px;
+    border-radius: 15px;
+    font-size: 18px;
+    margin-left: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#checkPropalUser,
+#userPropalInput {
+    border-radius: 15px;
+    font-size: 18px;
+}
+
+#userPropalInput {
+    padding-left: 15px;
+}
+
+.gameBoard,
+.countdownContainer  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.countdownContainer {
+    flex-direction: column;
+    margin: 50px;
+}
+
+#resultDiv {
+    color: white;
+    font-size: 28px;
+}
+
+.reboursDiv {
+    margin-top: 15px;
+    transition: 0.2s;
+    font-size: 20px;
+    display: inline-block;
+    color: white;
+}
+
+.reboursDiv.cool {
+    background-color: green;
+    border-radius: 35px;
+    padding: 15px;
+    font-weight: bold;
+}
+
+.reboursDiv.warning {
+    background-color: coral;
+    border-radius: 35px;
+    padding: 15px;
+    font-weight: bold;
+}
+
+.reboursDiv.danger {
+    background-color: red;
+    border-radius: 35px;
+    padding: 7px 15px;
+    font-weight: bold;
+    animation: suspens 1s infinite;
+}
+
+#gamePropalDiv {
+    display: none;
+}
+
+@keyframes suspens {
+    0%, 100%{
+        transform: rotate(0deg);
+        font-size: 25px;
+    }
+    33%{
+        transform: rotate(-30deg);
+        font-size: 28px;
+    }
+    66% {
+        transform: rotate(30deg);
+        font-size: 28px;
+    }
+}
