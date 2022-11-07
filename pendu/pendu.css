@@ -1,0 +1,50 @@
+main {
+    max-width: 500px;
+    margin: auto;
+}
+
+table {
+    width: 100%;
+    font-size: 50px;
+    text-align: center;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+h2 {
+    color: grey;
+}
+
+.btnNav {
+    background-color: lightblue;
+    padding: 10px;
+    border-radius: 15px;
+    font-size: 18px;
+    margin-left: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#keyBoard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 30px;
+}
+
+#keyBoard .letterKeyBoard {
+    padding: 10px;
+    border: 1px solid grey;
+    width: 50px;
+    height: 30px;
+    text-align: center;
+    margin: 2px;
+}
+
+
