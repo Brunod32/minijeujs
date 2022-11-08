@@ -89,7 +89,7 @@ function launchGame() {
 
 function endGame(gagne) {
     if (gagne) {
-        resultDiv.innerHTML = "C'est gagné !";
+        // resultDiv.innerHTML = "C'est gagné !";
         Confetti.launchAnimationConfeti();
         let audio = new Audio("audio/applause.mp3");
         audio.play();
