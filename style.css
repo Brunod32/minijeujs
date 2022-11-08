@@ -1,3 +1,29 @@
-h1 {
+body {
+    background-image: url('img/gameBack.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1,
+ul {
     text-align: center;
+}
+
+ul {
+    margin-top: 75px;
+}
+
+li {
+    list-style: none;
+    /* font-size: 20px; */
+    margin: 20px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    font-size: 25px;
+    font-weight: 1000;
 }
