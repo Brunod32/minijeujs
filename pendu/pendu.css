@@ -23,6 +23,13 @@ h2 {
     margin-left: 20px;
 }
 
+#beginGame {
+    background-color: bisque;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 18px;
+    margin-bottom: 50px;
+}
 
 .center {
     text-align: center;
