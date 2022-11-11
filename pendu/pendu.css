@@ -1,8 +1,18 @@
-body {
+/* body {
+    height: 100vh;
     background-image: url('img/background.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
+} */
+
+.imgBack{
+    position: fixed; 
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
 }
 
 h1 {
