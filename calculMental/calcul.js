@@ -1,79 +1,126 @@
-/*
-Todolist
-
-x Lancer un minuteur de x minutes
-x Générer un calcul (deux chiffres aléatoires, un opérateur en aléatoire)
-x Laisser utilisateur faire des propositions
-
-V2
-Paramétrer ma partie
-le temps compte à rebours
-les opérateurs de la partie
-*/
-
 const reboursDiv = document.getElementById("minuteur");
 const calculDiv = document.getElementById("calcul");
 const propalInput = document.getElementById("resultPropal");
-const tempsMinuteurBase = 5;
+const messengerDiv = document.getElementById("messenger");
+const showPlayingDiv = document.querySelectorAll(".showPlayingDiv");
+const nbSecondsGameInput = document.getElementById("nbSecondsGame");
+const maxNumberCalcInput = document.getElementById("maxNumberCalc");
+
+let TempsMinuteurBase = 10;//paramétrable
+let maxCalculNumber = 20;//Paramétrable
 let compteurInterval = null;
-let tempsRestant = 0;
-let calculEnCours = null;
+let TempsRestant =0;
+let calculEncours = null;
+let cptGoodAnswer = 0;
+let cptBadAnswer = 0;
+let allCalculRecap = '';
 
-document.getElementById('validPropal').addEventListener("click", () => {
-    if (propalInput.value == calculEnCours.result) {
-        alert("Bravo");
-    } else {
-        alert("Erreur");
+document.getElementById("validPropal").addEventListener("click", () => {
+    checkInputValue();
+});
+
+propalInput.addEventListener("keyup", event => {
+    if(event.key == 'Enter'){
+        checkInputValue();
     }
-})
+});
 
-function launchGame() {
-    lancerMinuteur(tempsMinuteurBase);
+function checkInputValue(){
+    if(propalInput.value == calculEncours.result){
+        messengerDiv.innerText="Bravo, vous avez trouvé";
+        cptGoodAnswer++;
+        allCalculRecap += `${calculEncours.showCalculWithResult} | <span class="goodAnswer">${propalInput.value}</span> <br/>`;
+    }
+    else{
+        messengerDiv.innerText=`Ce n'est pas le résultat ${calculEncours.showCalculWithResult}`;
+        cptBadAnswer ++;
+        allCalculRecap += `${calculEncours.showCalculWithResult} | <span class="badAnswer">${propalInput.value}</span> <br/>`;
+    }
+    propalInput.value = "";
+    generateCalcul();
 }
 
-function generateCalcul() {
-    calculEnCours = new Calcul(500);
-    calculDiv.innerText = calculEnCours.showcalcul;
+function launchGame(){
+    if(nbSecondsGameInput.value != undefined){
+        TempsMinuteurBase = nbSecondsGameInput.value;
+    }
+
+    if(maxNumberCalcInput.value != undefined){
+        maxCalculNumber = maxNumberCalcInput.value;
+    }
+
+    allCalculRecap = "";
+    cptGoodAnswer = 0;
+    cptBadAnswer = 0;
+    messengerDiv.innerHTML = "";
+    lancerMinuteur(TempsMinuteurBase);
+    generateCalcul();
+    displayPlayingDiv(true);
 }
 
-function lancerMinuteur(tempsMinuteurBase) {
-    tempsRestant = tempsMinuteurBase;
-    // Affiche le compteur dans la page html
-    reboursDiv.innerText = tempsRestant;
+function generateCalcul(){
+    calculEncours = new Calcul(maxCalculNumber);
+    calculDiv.innerText = calculEncours.showCalcul;
+}
+
+function lancerMinuteur(tempsMinuteurBase){
+    clearInterval(compteurInterval);
+    TempsRestant = tempsMinuteurBase;
+    reboursDiv.innerText = TempsRestant;
     compteurInterval = setInterval(() => {
-        // Le code ici va s'exécuter toute les secondes
-        tempsRestant--;
-        // Affiche le compteur dans la page html
-        reboursDiv.innerText = tempsRestant;
-        if (tempsRestant == 0) {
+        //Le code ici va s'éxécuter toutes les 1 seconde
+        TempsRestant --;
+        reboursDiv.innerText = TempsRestant;
+        if(TempsRestant == 0){
             clearInterval(compteurInterval);
-            alert('fini');
+            displayPlayingDiv(false);
+            messengerDiv.innerHTML = `Bonne(s) réponse(s) : ${cptGoodAnswer} <br/>`;
+            messengerDiv.innerHTML += `Mauvais(s) réponse(s) : ${cptBadAnswer} <br/>`;
+
+            let totalQuestions = cptBadAnswer + cptGoodAnswer;
+            let pourcentageGoodAnswer =  100 * cptGoodAnswer/totalQuestions;
+
+            messengerDiv.innerHTML += `Ratio : ${pourcentageGoodAnswer}% <br/>`;
+            messengerDiv.innerHTML += allCalculRecap;
         }
     }, 1000);
 }
 
+function displayPlayingDiv(show){
+    let displayProperty = "none";
+    if(show){
+        displayProperty = "block"
+    }
 
+    showPlayingDiv.forEach(element => {
+        element.style.display = displayProperty;
+    });
+}
 class Calcul {
-    #operators = ['*', '-', '+'];
+    #operators = ['*', '-', '+']; 
     nombre1;
     nombre2;
     operator;
+
     constructor(maximum) {
         this.nombre1 = this.#getRandomInt(maximum);
         this.nombre2 = this.#getRandomInt(maximum);
-        // Operator = opérateur aléatoires dans operators
         this.operator = this.#operators[this.#getRandomInt(3)];
     }
 
-    get result() {
-        return eval(this.nombre1 + this.operator + this.nombre2);
+    get result(){
+        return eval(this.nombre1+this.operator+this.nombre2);
     }
 
-    get showcalcul() {
+    get showCalcul(){
         return `${this.nombre1} ${this.operator} ${this.nombre2}`;
     }
 
+    get showCalculWithResult(){
+        return `${this.showCalcul} = ${this.result}`;
+    }
+
     #getRandomInt(max) {
-    return Math.floor(Math.random() * max);
+        return Math.floor(Math.random() * max);
     }
 }
