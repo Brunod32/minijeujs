@@ -1,3 +1,40 @@
+.imgBack{
+    position: fixed; 
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.5;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.main,
+.divParam {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.divParam {
+    margin: 1.5em;
+}
+
+.divTitle {
+    font-size: 25px;
+}
+
+#messenger {
+    font-size: 25px;
+    margin-top: 1rem;
+    text-align: center;
+}
+
 #minuteur{
     font-size: 25px;
     font-weight: bold;
@@ -13,4 +50,12 @@
 
 .badAnswer{
     color:red;
+}
+
+.btnNav {
+    background-color: lightblue;
+    padding: 10px;
+    border-radius: 15px;
+    font-size: 18px;
+    margin-left: 20px;
 }
