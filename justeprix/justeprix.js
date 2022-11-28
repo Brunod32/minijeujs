@@ -1,4 +1,5 @@
 import { Confetti } from "../lib/confetti.js";
+import { Utils } from "../lib/Utils/utils.js";
 
 let beginGame = document.getElementById('beginGame');
 let numberToFind = 0;
@@ -22,10 +23,6 @@ document.getElementById('userPropalInput').addEventListener('keyup', function (e
         checkPropal();
     }
 })
-
-function getRandomInt(max) {
-    return Math.floor(Math.random() * max)
-}
 
 function checkPropal() {
     // on récupère le nombre proposé par l'utilisateur
@@ -55,7 +52,7 @@ function launchGame() {
     // Lancer la partie
     // récuperer chiffre aléatoire
     Confetti.stopAnimationConfeti();
-    numberToFind = getRandomInt(1000);
+    numberToFind = Utils.getRandomInt(1000);
     console.log(numberToFind);
     tempsRestant = 30;
     gamePropalDiv.style.display = "block";

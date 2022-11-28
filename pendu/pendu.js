@@ -1,4 +1,5 @@
 import { Confetti } from "../lib/confetti.js";
+import { Utils } from "../lib/Utils/utils.js";
 
 const allWords = [
     "pokemon", "football", "peche",
@@ -117,12 +118,8 @@ function generateAlphabet(capital = false) {
 }
 
 function generateWord(){
-    let indexWord = getRandomInt(allWords.length);
+    let indexWord = Utils.getRandomInt(allWords.length);
     return allWords[indexWord];
-}
-
-function getRandomInt(max) {
-    return Math.floor(Math.random() * max);
 }
 
 //Retourne true si la lettre est présente dans le mot
