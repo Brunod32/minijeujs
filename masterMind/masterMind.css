@@ -1,3 +1,19 @@
+body {
+    background-color: blanchedalmond;
+}
+
 h1 {
     text-align: center;
+    color: rgb(179, 19, 19);
+    text-shadow: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff,
+    1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
+}
+
+select{
+    margin:15px;
+    padding: 10px;
+}
+select option{
+    zoom:2;
+    pointer-events: none !important;
 }
