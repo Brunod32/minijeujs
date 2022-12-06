@@ -31,3 +31,18 @@ select option{
     display:flex;
     justify-content: center
 }
+
+select,
+button {
+    border-radius: 20px;
+}
+
+#allSelect {
+    margin-top: 20px;
+}
+
+.boardGame {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
