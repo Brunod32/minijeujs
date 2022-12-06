@@ -5,12 +5,15 @@ const colors = ["red", "blue", "yellow", "pink"];
 const allSelectDiv = document.getElementById("allSelect");
 let colorTabToFind = null;
 const nbColorToFind = 4;
+let btn = document.createElement("button");
+let lineResponse = document.createElement("div");
 
 document.getElementById("startButton").addEventListener("click", ()=> {
     launchGame();
 });
 
-function launchGame(){
+function launchGame() {
+    lineResponse.innerText = "";
     setAleaColorTab();
     //Afficher le tableau à trouver en console.
     console.log(colorTabToFind);
@@ -61,17 +64,18 @@ function checkProposition(){
     }
 
     //Ajout de la ligne de message de points
-    let lineResponse = document.createElement("div");
+    // let lineResponse = document.createElement("div");
     lineResponse.innerText = "Bon endroit :"+cptGoodPlace+" | Mauvais endroit:"+cptBadPlace;
     allSelectDiv.appendChild(lineResponse);
 
     //Si on a autant de bonne de réponses que de cases dans mon tableau
     //secret, on a gagné
-    if(cptGoodPlace == colorTabToFind.length){
+    if (cptGoodPlace == colorTabToFind.length) {
         Confetti.launchAnimationConfeti();
         setTimeout(() =>{
             Confetti.stopAnimationConfeti();
         }, 5000);
+        line.style.display = none;
     }
 
     //On génère des nouveaux select
@@ -83,7 +87,7 @@ function generateLineSelect(){
     for (let index = 0; index < nbColorToFind; index++) {
         generateSelect(line);
     }
-    let btn = document.createElement("button");
+    // let btn = document.createElement("button");
     btn.innerText = "OK";
     line.appendChild(btn);
     btn.addEventListener("click", () => {
