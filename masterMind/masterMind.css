@@ -13,7 +13,21 @@ select{
     margin:15px;
     padding: 10px;
 }
+
 select option{
     zoom:2;
     pointer-events: none !important;
+}
+
+.btnNav {
+    background-color: lightblue;
+    padding: 10px;
+    border-radius: 15px;
+    font-size: 18px;
+    margin-left: 20px;
+}
+
+.btnLaunchGame {
+    display:flex;
+    justify-content: center
 }
