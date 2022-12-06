@@ -5,7 +5,6 @@ const colors = ["red", "blue", "yellow", "pink"];
 const allSelectDiv = document.getElementById("allSelect");
 let colorTabToFind = null;
 const nbColorToFind = 4;
-let btn = document.createElement("button");
 let lineResponse = document.createElement("div");
 
 document.getElementById("startButton").addEventListener("click", ()=> {
@@ -13,7 +12,7 @@ document.getElementById("startButton").addEventListener("click", ()=> {
 });
 
 function launchGame() {
-    lineResponse.innerText = "";
+    Confetti.stopAnimationConfeti();
     setAleaColorTab();
     //Afficher le tableau à trouver en console.
     console.log(colorTabToFind);
@@ -87,7 +86,7 @@ function generateLineSelect(){
     for (let index = 0; index < nbColorToFind; index++) {
         generateSelect(line);
     }
-    // let btn = document.createElement("button");
+    let btn = document.createElement("button");
     btn.innerText = "OK";
     line.appendChild(btn);
     btn.addEventListener("click", () => {
