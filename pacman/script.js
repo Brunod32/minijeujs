@@ -3,12 +3,14 @@
 * OK Créer le pacman
 * OK Gérer les déplacements sans contrainte
 * OK Contrainte de déplacement (pas dans les murs)
-* Pièces à manger
+* OK Pièces à manger
 * Générer les fantomes
 */
 
 const gameDiv = document.getElementById("game");
 const sizeCaseWidth = 28;
+const scroreHtml = document.getElementById("score");
+let score = 0;
 
 const layout = [
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -55,6 +57,7 @@ document.addEventListener("keyup", (event) => {
 
 function creerPlateau() {
     let cptCase = 0;
+    scroreHtml.innerHTML = score;
 
     layout.forEach(caseLayout => {
         let casePlateau = document.createElement("div");
@@ -133,6 +136,19 @@ function checkDirection(caseDestination) {
     if (caseDestination.classList.contains("mur")) {
         return false;
     } else {
+        if (caseDestination.classList.contains("point")) {
+            incrementScore();
+            caseDestination.classList.remove("point");
+        }
         return true;
+    }
+}
+
+function incrementScore() {
+    score++;
+    scroreHtml.innerHTML = score;
+    let allPoints = layout.filter(points => points == 0);
+    if (score == allPoints.length) {
+        alert("C'est gagné");
     }
 }
