@@ -1,0 +1,57 @@
+body,
+html {
+    background-color: black;
+}
+
+#game {
+    /* 28 * 28 */
+    width: 560px;
+    height: 560px;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: black;
+    margin:auto
+}
+
+#game div {
+    width: 20px;
+    height: 20px;
+    background-color: black;
+}
+
+/* Dessine les murs du plateau */
+#game div.mur {
+    background-color: rgb(0, 98, 255);
+}
+
+/* Dessine les point  
+* box-sizing: border-box; pour ne pas agrandir la div qui contient le point
+la bordure se met à l'intérieur de l'élément et pas autour
+*/
+#game div.point {
+    background-color: #ff8a00;
+    border-radius: 50%;
+    border: black solid 7px;
+    box-sizing: border-box;
+}
+
+#game div.fantome-area {
+    background-color: grey;
+
+}
+
+#game div.point-puissance {
+    background-color: #00ff66;
+    border-radius: 50%;
+    border: black solid 3px;
+    box-sizing: border-box;
+}
+
+#game div.pacman {
+    background-color: #ffee00;
+    border-radius: 50%;
+    border: black solid 1px;
+    box-sizing: border-box;
+}
+
+
