@@ -3,6 +3,15 @@ html {
     background-color: black;
 }
 
+.btnNav {
+    background-color: lightblue;
+    padding: 10px;
+    border-radius: 15px;
+    font-size: 18px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
 #game {
     /* 28 * 28 */
     width: 560px;
