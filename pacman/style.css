@@ -33,7 +33,7 @@ html {
     background-color: black;
 }
 
-/* Dessine les murs du plateau */
+/* fantome */
 #game div.mur {
     background-color: rgb(0, 98, 255);
 }
@@ -51,7 +51,14 @@ la bordure se met à l'intérieur de l'élément et pas autour
 
 #game div.fantome-area {
     background-color: grey;
+}
 
+/* Dessine les fantome */
+#game div.fantome {
+    background-color: #ff1500;
+    border-radius: 30%;
+    border: black solid 2px;
+    box-sizing: border-box;
 }
 
 #game div.point-puissance {
