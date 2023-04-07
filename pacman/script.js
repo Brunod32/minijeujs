@@ -5,9 +5,9 @@
 * OK Contrainte de déplacement (pas dans les murs)
 * OK Pièces à manger
 * OK Générer les fantomes
-* Déplacer les fantome mloyen en aleatoire
-* Gérer collision entre Pacman et fantome
-* Gérer les powet-pellet
+* OK Déplacer les fantome mloyen en aleatoire
+* OK Gérer collision entre Pacman et fantome
+* OK Gérer les power-pellet (= Pacman peut manger un fantome)
 * Gérer une cerise
 */
 
@@ -16,6 +16,7 @@ const sizeCaseWidth = 28;
 const scroreHtml = document.getElementById("score");
 let score = 0;
 let fantomesSpeed = 500;
+let PacmanCanEatGhost = false;
 
 const layout = [
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -135,6 +136,17 @@ function deplacerPacman(direction) {
         if (checkDirectionWall(caseDestination)) {
             pacmanDiv.classList.remove("pacman");
             caseDestination.classList.add("pacman");
+            if (caseDestination.classList.contains("point-puissance")) {
+                // Pacman peut manger fantome
+                caseDestination.classList.remove("point-puissance");
+                PacmanCanEatGhost = true;
+                gameDiv.classList.add("pacmanCanEatGhost");
+                // au bout de 5s, pacman ne peut plus manger de fantome
+                setTimeout(()=> {
+                    PacmanCanEatGhost = false;
+                    gameDiv.classList.remove("pacmanCanEatGhost");
+                }, 5000)
+            }
             if (!checkPacmanEatedByGhost(caseDestination)) {
                 checkPointEating(caseDestination);
             }
@@ -157,7 +169,11 @@ function checkPacmanEatedByGhost(caseToCheck) {
     let containsGhost = caseToCheck.classList.contains("fantome");
 
     if (containsPacman && containsGhost) {
-        alert("perdu");
+        if (PacmanCanEatGhost) {
+            caseToCheck.classList.remove("fantome");
+        } else {
+            alert("Perdu");
+        }
     }
 }
 
