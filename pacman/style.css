@@ -75,4 +75,9 @@ la bordure se met à l'intérieur de l'élément et pas autour
     box-sizing: border-box;
 }
 
+#game.pacmanCanEatGhost div.fantome {
+    background-color: #0015ff;
+}
+
+
 
