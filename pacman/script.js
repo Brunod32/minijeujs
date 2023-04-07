@@ -94,7 +94,7 @@ function creerPlateau() {
     });
 
     getCaseByIndex(489).classList.add("pacman");
-    generatFantome();
+    generateFantome();
 
     // Déplacement aléatoire des fantomes
     setInterval(deplacerFantomes, fantomesSpeed);
@@ -135,7 +135,9 @@ function deplacerPacman(direction) {
         if (checkDirectionWall(caseDestination)) {
             pacmanDiv.classList.remove("pacman");
             caseDestination.classList.add("pacman");
-            checkPointEating(caseDestination);
+            if (!checkPacmanEatedByGhost(caseDestination)) {
+                checkPointEating(caseDestination);
+            }
         };
     };
 }
@@ -147,6 +149,15 @@ function checkDirectionWall(caseDestination) {
         return false;
     } else {
         return true;
+    }
+}
+
+function checkPacmanEatedByGhost(caseToCheck) {
+    let containsPacman = caseToCheck.classList.contains("pacman");
+    let containsGhost = caseToCheck.classList.contains("fantome");
+
+    if (containsPacman && containsGhost) {
+        alert("perdu");
     }
 }
 
@@ -175,7 +186,7 @@ function incrementScore() {
     }
 }
 
-function generatFantome() {
+function generateFantome() {
     // Générer fantome * 4
     for (let i = 0; i < 4; i++) {
         // cible une div qui a class fantome-area mais pas class fantome
@@ -240,10 +251,11 @@ function deplacerFantomes() {
         let direction = allGoodsDirections[elementOfTable];
         caseDestination = getNumeroCaseDestination(fantomeCaseId, direction);
         fantome.classList.remove("fantome");
-                fantome.removeAttribute("data-previous-direction");
-                caseDestination.classList.add("fantome");
-                caseDestination.dataset.previousDirection = direction;
-                goodDriectionfinded = true;
+        fantome.removeAttribute("data-previous-direction");
+        caseDestination.classList.add("fantome");
+        caseDestination.dataset.previousDirection = direction;
+        checkPacmanEatedByGhost(caseDestination);
+        goodDriectionfinded = true;
     });
 }
 
