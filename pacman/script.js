@@ -11,12 +11,19 @@
 * Gérer une cerise
 */
 
+// 0 - pac-dots (points à manger)
+// 1 - wall
+// 2 - ghost-lair
+// 3 - power-pellet (points de puissance)
+// 4 - empty
+
 const gameDiv = document.getElementById("game");
 const sizeCaseWidth = 28;
 const scroreHtml = document.getElementById("score");
 let score = 0;
 let fantomesSpeed = 500;
 let PacmanCanEatGhost = false;
+let intervalFantome = null;
 
 const layout = [
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -49,19 +56,13 @@ const layout = [
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 ]
 
-// 0 - pac-dots (points à manger)
-  // 1 - wall
-  // 2 - ghost-lair
-  // 3 - power-pellet (points de puissance)
-  // 4 - empty
-
-creerPlateau();
-
-document.addEventListener("keydown", (event) => {
-    deplacerPacman(event.key);
-});
+document.getElementById("play").addEventListener("click", () => {
+    stopPartie();
+    creerPlateau();
+})
 
 function creerPlateau() {
+    gameDiv.innerHTML = "";
     let cptCase = 0;
     scroreHtml.innerHTML = score;
 
@@ -82,11 +83,7 @@ function creerPlateau() {
                 break;
             case 3:
                 casePlateau.classList.add("point-puissance");
-                break;
-            case 4:
-
-                break;
-        
+                break;       
             default:
                 break;
         }
@@ -98,8 +95,13 @@ function creerPlateau() {
     generateFantome();
 
     // Déplacement aléatoire des fantomes
-    setInterval(deplacerFantomes, fantomesSpeed);
-    
+    intervalFantome = setInterval(deplacerFantomes, fantomesSpeed);
+
+    document.addEventListener("keyup", onKeyupAction);
+}
+
+function onKeyupAction(event) {
+    deplacerPacman(event.key);
 }
 
 // Permet de retourner une case selon son index
@@ -172,6 +174,7 @@ function checkPacmanEatedByGhost(caseToCheck) {
         if (PacmanCanEatGhost) {
             caseToCheck.classList.remove("fantome");
         } else {
+            stopPartie();
             alert("Perdu");
         }
     }
@@ -198,6 +201,7 @@ function incrementScore() {
     scroreHtml.innerHTML = score;
     let allPoints = layout.filter(points => points == 0);
     if (score == allPoints.length) {
+        stopPartie();
         alert("C'est gagné");
     }
 }
@@ -333,4 +337,16 @@ const directions = {
     Bas: 1,
     Droite: 2,
     Gauche: 3
+}
+
+function stopPartie() {
+    score = 0;
+    // clear intervalFantome
+    if (intervalFantome != null) {
+        clearInterval(intervalFantome);
+    }
+
+    // Supprimer ecouteurs d'événements pour arrêter Pacman
+    document.removeEventListener("keyup", onKeyupAction);
+
 }
