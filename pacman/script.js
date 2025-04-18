@@ -1,15 +1,5 @@
-/*
-* OK Créer le plateau de jeu (de façon dynamique)
-* OK Créer le pacman
-* OK Gérer les déplacements sans contrainte
-* OK Contrainte de déplacement (pas dans les murs)
-* OK Pièces à manger
-* OK Générer les fantomes
-* OK Déplacer les fantome mloyen en aleatoire
-* OK Gérer collision entre Pacman et fantome
-* OK Gérer les power-pellet (= Pacman peut manger un fantome)
-* Gérer une cerise
-*/
+// TODO
+// Changer le sens de pacman
 
 // 0 - pac-dots (points à manger)
 // 1 - wall
@@ -24,6 +14,8 @@ let score = 0;
 let fantomesSpeed = 500;
 let PacmanCanEatGhost = false;
 let intervalFantome = null;
+let directionMaintenue = null;
+let intervalDeplacementPacman = null;
 
 const layout = [
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -31,7 +23,7 @@ const layout = [
     1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,0,1,
     1,3,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,3,1,
     1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,0,1,
-    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+    1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
     1,0,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,0,1,
     1,0,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,0,1,
     1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
@@ -52,7 +44,7 @@ const layout = [
     1,0,0,0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,0,0,0,1,
     1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,1,1,0,1,
     1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,1,1,0,1,
-    1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+    1,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 ]
 
@@ -83,7 +75,10 @@ function creerPlateau() {
                 break;
             case 3:
                 casePlateau.classList.add("point-puissance");
-                break;       
+                break;
+            case 5:
+                casePlateau.classList.add("cerise");
+                break;
             default:
                 break;
         }
@@ -97,11 +92,57 @@ function creerPlateau() {
     // Déplacement aléatoire des fantomes
     intervalFantome = setInterval(deplacerFantomes, fantomesSpeed);
 
-    document.addEventListener("keyup", onKeyupAction);
+    document.addEventListener("keydown", onKeydownAction);
+    document.addEventListener("keyup", onKeyupStopAction);
 }
 
-function onKeyupAction(event) {
-    deplacerPacman(event.key);
+function onKeydownAction(event) {
+    const direction = event.key;
+    const pacmanDiv = document.querySelector(".pacman");
+
+    // Supprimer les classes de rotation précédentes
+    pacmanDiv.classList.remove("rotate-left", "rotate-up", "rotate-down", "rotate-right");
+
+    if (direction === "ArrowUp") {
+        directionMaintenue = direction;
+        pacmanDiv.classList.add("rotate-up");
+        if (!intervalDeplacementPacman) {
+            intervalDeplacementPacman = setInterval(deplacerPacmanContinu, 100);
+        }
+    } else if (direction === "ArrowDown") {
+        directionMaintenue = direction;
+        pacmanDiv.classList.add("rotate-down");
+        if (!intervalDeplacementPacman) {
+            intervalDeplacementPacman = setInterval(deplacerPacmanContinu, 100);
+        }
+    } else if (direction === "ArrowLeft") {
+        directionMaintenue = direction;
+        pacmanDiv.classList.add("rotate-left");
+        if (!intervalDeplacementPacman) {
+            intervalDeplacementPacman = setInterval(deplacerPacmanContinu, 100);
+        }
+    } else if (direction === "ArrowRight") {
+        directionMaintenue = direction;
+        pacmanDiv.classList.add("rotate-right");
+        if (!intervalDeplacementPacman) {
+            intervalDeplacementPacman = setInterval(deplacerPacmanContinu, 100);
+        }
+    }
+}
+
+function deplacerPacmanContinu() {
+    if (directionMaintenue) {
+        deplacerPacman(directionMaintenue);
+    }
+}
+
+function onKeyupStopAction(event) {
+    const direction = event.key;
+    if (direction === "ArrowUp" || direction === "ArrowDown" || direction === "ArrowLeft" || direction === "ArrowRight") {
+        directionMaintenue = null;
+        clearInterval(intervalDeplacementPacman);
+        intervalDeplacementPacman = null;
+    }
 }
 
 // Permet de retourner une case selon son index
@@ -148,6 +189,11 @@ function deplacerPacman(direction) {
                     PacmanCanEatGhost = false;
                     gameDiv.classList.remove("pacmanCanEatGhost");
                 }, 5000)
+            }
+            if (caseDestination.classList.contains("cerise")) {
+                // Pacman mange une cerise
+                incrementScore(50);
+                caseDestination.classList.remove("cerise");
             }
             if (!checkPacmanEatedByGhost(caseDestination)) {
                 checkPointEating(caseDestination);
@@ -196,19 +242,22 @@ function checkPointEating(caseDestination) {
     }
 }
 
-function incrementScore() {
-    score++;
+function incrementScore(point = 1) {
+    score += point;
     scroreHtml.innerHTML = score;
-    let allPoints = layout.filter(points => points == 0);
-    if (score == allPoints.length) {
+    // Vérifier le nombre de points restants dans le DOM
+    const pointsRestants = document.querySelectorAll(".point").length-1;
+    console.log(pointsRestants)
+
+    if (pointsRestants === 0) {
         stopPartie();
-        alert("C'est gagné");
+        alert("C'est gagné !");
     }
 }
 
 function generateFantome() {
     // Générer fantome * 4
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 0; i++) {
         // cible une div qui a class fantome-area mais pas class fantome
         let casePotentialFantome = document.querySelectorAll(".fantome-area:not(.fantome)");
         let caseForFantome = casePotentialFantome[getRandomNumber(casePotentialFantome.length)];
@@ -252,7 +301,7 @@ function deplacerFantomes() {
         });
 
         if (allGoodsDirections.length > 1) {
-            // Plusoeurs positions possibles, j'élmine celle qui ne va pas avec previous direction
+            // Plusieurs positions possibles, j'élmine celle qui ne va pas avec previous direction
             let previousDirection = fantome.dataset.previousDirection;
 
             allGoodsDirections.forEach(goodDirection => {
@@ -346,7 +395,11 @@ function stopPartie() {
         clearInterval(intervalFantome);
     }
 
-    // Supprimer ecouteurs d'événements pour arrêter Pacman
-    document.removeEventListener("keyup", onKeyupAction);
+    // // Supprimer ecouteurs d'événements pour arrêter Pacman
+    // document.removeEventListener("keyup", onKeyupAction);
+    clearInterval(intervalDeplacementPacman); // Arrêter l'intervalle de Pacman
+    intervalDeplacementPacman = null;
+    document.removeEventListener("keydown", onKeydownAction); // Modifier l'écouteur supprimé
+    document.removeEventListener("keyup", onKeyupStopAction); // Supprimer le nouvel écouteur keyup
 
 }

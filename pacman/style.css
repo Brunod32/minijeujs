@@ -95,6 +95,32 @@ la bordure se met à l'intérieur de l'élément et pas autour
     border-radius: 50%;
     border: black solid 1px;
     box-sizing: border-box;
+    transform-origin: center;
+}
+
+.rotate-left {
+    transform: rotate(180deg);
+}
+
+.rotate-up {
+    transform: rotate(-90deg); /* Ou 270deg */
+}
+
+.rotate-down {
+    transform: rotate(90deg);
+}
+
+.rotate-right {
+    transform: rotate(0deg);
+}
+
+#game div.cerise {
+    background-image: url(img/PacmanSprite.png);
+    background-position-x : -35px;
+    background-position-y : -47px;
+    border-radius: 50%;
+    border: black solid 1px;
+    box-sizing: border-box;
 }
 
 @keyframes pacmanAnimation {
